@@ -2,7 +2,7 @@
 
 This is an example C++ project that uses vcpkg versioning.
 
-It uses two common C++ libraries. CRP (curl lib, makes http request) and rapidjson (fast json to object mapping).
+It uses three common C++ libraries. CRP (curl lib, makes http request) , librdkafka, and rapidjson (fast json to object mapping).
 
 ## Geting started
 
