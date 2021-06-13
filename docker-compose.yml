@@ -1,0 +1,56 @@
+version: '3.5'
+
+services:
+
+   developer:
+      networks:
+         - kafka
+      entrypoint: /bin/bash
+      command:  -c "sleep infinity"
+      build:
+         context: .
+         dockerfile: Dockerfile
+         args:
+         - USERNAME=dev
+         target: developer
+      command:  -c "sleep infinity" 
+      volumes:
+         - ./:/Project
+      environment:
+         KAFKA_USER: "admin"
+         KAFKA_PASS: "admin-secret"
+         KAFKA_BOOTSTRAP_SERVERS: "kafka:9092" # kafka url
+
+   zookeeper:
+      networks:
+         - kafka
+      image: wurstmeister/zookeeper
+      ports:
+         - "2181:2181"
+            
+   kafka:
+      networks:
+         - kafka
+      image: wurstmeister/kafka
+      command: [start-kafka.sh]
+      ports:
+            - "9092:9092"
+      environment:
+            KAFKA_CREATE_TOPICS: "ingest_streaming_telemetry_tgr:1:1,vrfStats:1:1,test:1:1" # add new topics here appended with :1:1 for who knows why
+            KAFKA_ADVERTISED_HOST_NAME: kafka # docker-machine ip
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_PORT: 9092
+            KAFKA_INTER_BROKER_LISTENER_NAME: SASL_PLAINTEXT
+            KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+            KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+            KAFKA_LISTENERS: SASL_PLAINTEXT://:9092
+            KAFKA_ADVERTISED_LISTENERS: SASL_PLAINTEXT://kafka:9092
+            KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+
+      volumes:
+      - "./kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf"
+
+networks:
+   kafka:
+      name: kafka
+

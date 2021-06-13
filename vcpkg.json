@@ -5,6 +5,7 @@
 
     "dependencies": [
       { "name": "cpr", "version>=": "1.5.2" },
-      { "name": "rapidjson"}
+      { "name": "rapidjson"},
+      {"name": "librdkafka", "version>=":"1.7.0"}
     ]
 }

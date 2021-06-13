@@ -1,3 +1,6 @@
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git
+[submodule "include/modern-cpp-kafka"]
+	path = include/modern-cpp-kafka
+	url = https://github.com/morganstanley/modern-cpp-kafka.git
