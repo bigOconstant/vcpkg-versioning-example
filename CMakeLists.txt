@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.14)
 set (CMAKE_CXX_STANDARD 17)
 
-project(post)
+project(consumer)
 
 include(./vcpkg/scripts/buildsystems/vcpkg.cmake)
 
@@ -17,8 +17,8 @@ file(GLOB SOURCES
 list(APPEND includePath "include/modern-cpp-kafka/include" ${RAPIDJSON_INCLUDE_DIRS})
 
 
-add_executable(post ${SOURCES} )
+add_executable(consumer ${SOURCES} )
 
-target_include_directories(post PUBLIC ${includePath}  )
+target_include_directories(consumer PUBLIC ${includePath}  )
 
-target_link_libraries(post PUBLIC optimized cpr RdKafka::rdkafka optimized RdKafka::rdkafka++ )
+target_link_libraries(consumer PUBLIC optimized cpr RdKafka::rdkafka optimized RdKafka::rdkafka++ )
